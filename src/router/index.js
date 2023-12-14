@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router"
 
 import Login from "../components/Login.vue";
+import Main from "../components/Main.vue";
 
 const routes = [
     {
@@ -16,6 +17,11 @@ const routes = [
         path: "/",
         name: "Login", // 초기 로딩 페이지
         component: Login,
+    },
+    {
+        path: "/main",
+        name: "Main",
+        component: Main,
     },
 ]
 

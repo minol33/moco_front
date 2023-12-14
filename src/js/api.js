@@ -47,7 +47,7 @@ export default property => {
 
   // --------------------- EndPoint ---------------------
   property.$DOMAIN = import.meta.env.VITE_APP_DOMAIN
-  property.$EXCHANGE_LIST = '/exchange/list'
+  property.$LOGIN = '/admin/login'
 
   // --------------------- GET ---------------------
   property.$get = function (callUrl, caller, useToken, success, fail) {
@@ -104,8 +104,7 @@ export default property => {
 
     axios.post(this.$DOMAIN + callUrl, postData, _reqOption).then((response) => {
       pending_post[arguments[0] + caller] = false
-
-      if (response.data.result === true) {
+      if (response.data.status === 'success') {
         success(response.data)
       } else {
         fail(response)
