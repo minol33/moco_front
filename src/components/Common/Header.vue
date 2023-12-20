@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header justify-space-between mt-2" v-if="headerInfo.type === 'logo'">
     <div class="header_item"></div>
     <div class="header_item">
       <img src="/public/img/header_logo.svg" alt="logo">
@@ -8,6 +8,10 @@
       <span class="username">{{ username }}</span>
     </div>
   </div>
+  <div class="header align-center" v-else>
+    <v-icon icon="mdi-chevron-left" :size="40" @click="$router.back()" />
+    <span class="text-h6 font-weight-bold">{{ headerInfo.title }}</span>
+  </div>
 </template>
 
 <script>
@@ -15,7 +19,11 @@ export default {
   name: "Header",
   data() {
     return {
-      username: ''
+      username: '',
+      headerInfo: {
+        type: '',
+        title: '',
+      }
     }
   },
   mounted() {
@@ -30,7 +38,6 @@ export default {
 <style scoped>
 .header {
   display: flex;
-  justify-content: space-between;
   padding: 5px;
 }
 

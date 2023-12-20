@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <Header />
+    <Header ref="Header" />
     <router-view />
     <Notifications>
       <template #body="props">
@@ -16,12 +16,19 @@
 </template>
 
 <script>
-import {defineComponent} from "vue";
 import Header from "./components/Common/Header.vue";
 
-export default defineComponent({
-  components: {Header}
-})
+export default {
+  name: 'App',
+  components: {
+    Header
+  },
+  data() {
+    return {
+    }
+  }
+
+}
 </script>
 
 <style scoped>

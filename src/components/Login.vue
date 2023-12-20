@@ -18,7 +18,11 @@ export default {
       password: 'test1234'
     }
   },
-  mounted() {
+  created() {
+    this.$root.$refs.Header.headerInfo = {
+      type: 'logo',
+      title: '로그인'
+    }
     sessionStorage.clear()
   },
   methods: {
@@ -54,7 +58,7 @@ export default {
 </script>
 
 <style>
-.container {
+.container, .flex {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -67,13 +71,13 @@ export default {
 }
 .input_box {
   width: 85%;
-  height: 30px;
+  height: 40px;
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 16px;
   border-radius: 8px;
   border: 1px solid #C390CF;
   color: #333;
-  font-size: 14px;
+  font-size: 16px;
 }
 input::placeholder {
   color: #DEDEDE;

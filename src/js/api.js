@@ -48,6 +48,10 @@ export default property => {
   // --------------------- EndPoint ---------------------
   property.$DOMAIN = import.meta.env.VITE_APP_DOMAIN
   property.$LOGIN = '/admin/login'
+  property.$LOGOUT = '/admin/logout'
+  property.$ADD_TEST = '/admin/addTest'
+  property.$ADD_TYPE = '/admin/addType'
+  property.$ADD_QUESTION = '/admin/addQuestion'
 
   // --------------------- GET ---------------------
   property.$get = function (callUrl, caller, useToken, success, fail) {
