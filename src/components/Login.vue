@@ -73,13 +73,14 @@ export default {
   width: 85%;
   height: 40px;
   margin-bottom: 20px;
-  padding: 16px;
+  padding: 12px;
   border-radius: 8px;
   border: 1px solid #C390CF;
   color: #333;
   font-size: 16px;
 }
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #DEDEDE;
   font-size: 14px;
   font-weight: 600;
@@ -96,5 +97,8 @@ input::placeholder {
   font-size: 18px;
 }
 
+.btn_blue {
+  background: #90B1CF;
+}
 
 </style>

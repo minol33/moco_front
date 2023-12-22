@@ -31,10 +31,6 @@ export default {
   justify-content: center;
 }
 
-.btn_blue {
-  background: #90B1CF;
-}
-
 .btn_box {
   display: flex;
   justify-content: space-between;
