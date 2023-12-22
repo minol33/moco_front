@@ -47,8 +47,9 @@
             <label :for="'q_' + q_index + 'sub_2_' + index_2">{{ sub_2.type ? sub_2.type : `유형${index_2+1} 정보 입력` }}</label>
           </div>
         </div>
-        <hr>
       </div>
+      <button class="moco_btn mb-5" @click="item.questions.push([{ content: '', types: [] },{ content: '', types: [] }])">유형 추가</button>
+      <hr>
       <button class="moco_btn btn_blue mb-5" @click="updateTest">다음</button>
     </div>
 
@@ -115,18 +116,18 @@ export default {
           this.httpAlert('error', '설명을 입력해 주세요')
           return
         }
-        if (!this.item.types[0].type || !this.item.types[0].description) {
-          this.httpAlert('error', '유형1 정보를 입력해 주세요')
-          return
+        for (let i = 0; i < this.item.types; i++) {
+          if (!this.item.types[i].type || !this.item.types[i].description) {
+            this.httpAlert('error', `유형${i+1} 정보를 입력해 주세요`)
+            return
+          }
         }
-        if (!this.item.types[1].type || !this.item.types[1].description) {
-          this.httpAlert('error', '유형2 정보를 입력해 주세요')
-          return
-        }
-        if (!this.item.questions) {
-          this.httpAlert('error', '1번 문항 정보를 입력해 주세요')
-          return
-        }
+        // for (let i = 0; i < this.item.questions; i++) {
+        //   if (!this.item.questions[i].type || !this.item.questions[i].description) {
+        //     this.httpAlert('error', `${i+1}번 문항 정보를 입력해 주세요`)
+        //     return
+        //   }
+        // }
         const formData = new FormData()
         formData.append('testName', this.item.testName)
         formData.append('testSubName', this.item.testSubName)
