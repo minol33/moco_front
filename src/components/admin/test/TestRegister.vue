@@ -36,14 +36,14 @@
         <input type="text" class="input_box mb-1" v-model="q_item[0].content" placeholder="A.질문을 입력하세요">
         <div class="w-100 ml-16 mb-5" style="display: flex; flex-wrap: wrap">
           <div class="mr-5" v-for="(sub_1, index_1) in item.types" :key="index_1" style="display: flex; word-break: keep-all">
-            <input class="mr-1" type="checkbox" :id="'q_' + q_index + 'sub_1_' + index_1" :disabled="!sub_1.type">
+            <input class="mr-1" type="checkbox" :id="'q_' + q_index + 'sub_1_' + index_1" :disabled="!sub_1.type" v-model="q_item[0].types" :value="sub_1.type">
             <label :for="'q_' + q_index + 'sub_1_' + index_1">{{ sub_1.type ? sub_1.type : `유형${index_1+1} 정보 입력` }}</label>
           </div>
         </div>
-        <input type="text" class="input_box mb-1" v-model="q_item[1].content" placeholder="B.질문을 입력하세요" @change="console.log(this.item)">
+        <input type="text" class="input_box mb-1" v-model="q_item[1].content" placeholder="B.질문을 입력하세요" @change="console.log(q_item)">
         <div class="w-100 ml-16 mb-5" style="display: flex; flex-wrap: wrap">
           <div class="mr-5" v-for="(sub_2, index_2) in item.types" :key="index_2" style="display: flex; word-break: keep-all">
-            <input class="mr-1" type="checkbox" :id="'q_' + q_index + 'sub_2_' + index_2" :disabled="!sub_2.type">
+            <input class="mr-1" type="checkbox" :id="'q_' + q_index + 'sub_2_' + index_2" :disabled="!sub_2.type" v-model="q_item[1].types" :value="sub_2.type">
             <label :for="'q_' + q_index + 'sub_2_' + index_2">{{ sub_2.type ? sub_2.type : `유형${index_2+1} 정보 입력` }}</label>
           </div>
         </div>
@@ -67,12 +67,12 @@ export default {
         description: '',
         imageFile: '',
         types: [
-            { type: '', description: '' },
-            { type: '', description: '' }
+            { type: 'INTP', description: 'INTP' },
+            { type: 'ESFJ', description: 'ESFJ' }
         ],
         questions: [
-          [{ content: '', types: [] },{ content: '', types: [] }],
-          [{ content: '', types: [] },{ content: '', types: [] }],
+          [{ content: '질문A', types: [] },{ content: '질문B', types: [] }],
+          [{ content: '질문A', types: [] },{ content: '질문B', types: [] }],
         ],
       }
     }
@@ -82,14 +82,15 @@ export default {
       type: 'back',
       title: '테스트 등록'
     }
-    console.log(this.item)
-    console.log(this.item.types[0])
   },
   methods: {
+    checkType: function (e) {
+      console.log(e.target.value)
+    },
     setFile: function(e) {
       if(e.target.files[0]){
         this.item.imageFile = []
-        this.item.imageFile[0] = e.target.files[0]
+        this.item.imageFile = e.target.files[0]
         const reader = new FileReader();
         reader.onload = function(e) {
           document.getElementById('preview').src = e.target.result
@@ -97,6 +98,7 @@ export default {
         reader.readAsDataURL(e.target.files[0]);
       }
       console.log(this.item.imageFile)
+      console.log(e.target.files[0])
     },
     async updateTest(){
       try {
@@ -116,18 +118,25 @@ export default {
           this.httpAlert('error', '설명을 입력해 주세요')
           return
         }
-        for (let i = 0; i < this.item.types; i++) {
+        for (let i = 0; i < this.item.types.length; i++) {
           if (!this.item.types[i].type || !this.item.types[i].description) {
             this.httpAlert('error', `유형${i+1} 정보를 입력해 주세요`)
             return
           }
         }
-        // for (let i = 0; i < this.item.questions; i++) {
-        //   if (!this.item.questions[i].type || !this.item.questions[i].description) {
-        //     this.httpAlert('error', `${i+1}번 문항 정보를 입력해 주세요`)
-        //     return
-        //   }
-        // }
+        for (let i = 0; i < this.item.questions.length; i++) {
+          for (let j = 0; j < this.item.questions[i].length; j++) {
+            if (!this.item.questions[i][j].content) {
+              this.httpAlert('error', `${i+1}번 ${ j === 0 ? 'A' : 'B'}문항 질문을 입력해 주세요`)
+              return
+            }
+            if (this.item.questions[i][j].types.length <= 0) {
+              this.httpAlert('error', `${i+1}번 ${ j === 0 ? 'A' : 'B'}문항에 해당하는 타입을 체크해 주세요`)
+              return
+            }
+          }
+        }
+
         const formData = new FormData()
         formData.append('testName', this.item.testName)
         formData.append('testSubName', this.item.testSubName)
@@ -136,10 +145,10 @@ export default {
         formData.append('types', JSON.stringify(this.item.types))
         formData.append('questions', JSON.stringify(this.item.questions))
         this.$post(this.$TESTS, 'test_register', formData, true, (result) => {
-          console.log(result, 'result')
+          console.log(result.message, 'result')
 
-
-          // this.$router.push({name: 'Main'})
+          this.httpAlert('success', result.message)
+          this.$router.replace({name: 'TestList'})
         }, (result) => {
           this.httpAlert('error', result.message)
         })
