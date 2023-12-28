@@ -72,8 +72,7 @@ export default property => {
 
     axios.get(this.$DOMAIN + callUrl, _reqOption).then((response) => {
       pending_get[arguments[0] + caller] = false
-      console.log(response)
-      if (response.data.result === true) {
+      if (response.data.status === 'success') {
         success(response.data)
       } else {
         fail(response)

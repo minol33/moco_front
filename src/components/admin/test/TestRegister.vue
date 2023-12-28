@@ -150,7 +150,7 @@ export default {
           this.httpAlert('success', result.message)
           this.$router.replace({name: 'TestList'})
         }, (result) => {
-          this.httpAlert('error', result.message)
+          this.httpError(result)
         })
       } catch (error) {
         console.log(error)
