@@ -15,4 +15,29 @@ export default (property) => {
             this.$notify({ type: 'info', text: text, duration: this.duration_ms })
         }
     }
+
+    property.formatDate = function (date, mark = '-', type = 'date') {
+        let t
+        date = new Date(date)
+        const year = date.getFullYear()
+        let month = date.getMonth() + 1
+        month = month >= 10 ? month : '0' + month
+        let day = date.getDate()
+        day = day >= 10 ? day : '0' + day
+        switch (type) {
+            case 'year' :
+                t = year
+                break;
+            case 'month' :
+                t = month
+                break;
+            case 'day' :
+                t = day
+                break;
+            case 'date' :
+                t = year + mark + month + mark + day
+                break;
+        }
+        return t
+    }
 }
