@@ -12,15 +12,18 @@
         </div>
       </template>
     </Notifications>
+    <Confirm ref="Confirm" />
   </div>
 </template>
 
 <script>
 import Header from "./components/Common/Header.vue";
+import Confirm from "./components/Common/Confirm.vue";
 
 export default {
   name: 'App',
   components: {
+      Confirm,
     Header
   },
   data() {

@@ -28,7 +28,7 @@
           <img :src="`https://aqnmhrbebgwoziqtyyns.supabase.co/storage/v1/object/public/moco-images/${item.path}`"
                alt="test_img">
           <div class="delete_hover">
-            <v-icon class="delete_icon" icon="mdi-close-circle" :size="30" @click="$router.back()" />
+            <v-icon class="delete_icon" icon="mdi-close-circle" :size="30" @click="deleteTest(item.id)" />
           </div>
         </div>
         <h3 class="font-weight-bold">{{ item.name }}</h3>
@@ -77,6 +77,18 @@ export default {
     }
   },
   methods: {
+    deleteTest: function (idx) {
+      this.$root.$refs.Confirm.showDialog('', '테스트를 삭제 하시겠습니까?', '취소', '삭제', () => {
+        console.log('삭제')
+        this.$delete(this.$TESTS + '/' + idx, 'delete_test_list', true, (result) => {
+          console.log(result)
+          this.httpAlert('success', result.message)
+          this.getData()
+        }, (result) => {
+          this.httpError(result)
+        })
+      }, () => {})
+    },
     getSearchData: function (item) {
       console.log(item)
       this.searchData.sort = item.value

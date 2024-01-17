@@ -172,7 +172,7 @@ export default property => {
     axios.delete(this.$DOMAIN + callUrl, _reqOption).then((response) => {
       pending_delete[arguments[0] + caller] = false
 
-      if (response.data.result === true) {
+      if (response.data.status === 'success') {
         success(response.data)
       } else {
         fail(response)
